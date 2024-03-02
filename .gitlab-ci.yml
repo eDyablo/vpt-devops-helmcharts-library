@@ -10,5 +10,5 @@ lint chart:
 package chart:
   extends: .package chart job
 
-# publish chart:
-#   extends: .push chart to artifactory job
+publish chart:
+  extends: .push chart to artifactory job
