@@ -1,0 +1,14 @@
+{{- define "viapathlib.configmaps" -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    {{- include "chart.labels" . | nindent 4 }}
+  name: {{ list (include "chart.fullname" .) "envs" | join "-" }}
+{{- with .Values.envs }}
+data:
+{{- range $index, $element := . }}
+  {{ $index }}: {{ $element | quote }}
+{{- end }}
+{{- end }}
+{{- end }}
