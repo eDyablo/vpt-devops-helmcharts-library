@@ -32,7 +32,16 @@ spec:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          image: {{
+            (list
+              (list
+                .Values.image.registry
+                .Values.image.repository
+                | compact | join "/"
+              )
+              (.Values.image.tag | default .Chart.AppVersion)
+              | compact | join ":"
+            ) }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           envFrom:
           - configMapRef:
