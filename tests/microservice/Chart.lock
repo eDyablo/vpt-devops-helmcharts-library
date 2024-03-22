@@ -1,0 +1,6 @@
+dependencies:
+- name: viapathlib
+  repository: file://../..
+  version: 0.1.0
+digest: sha256:2639e1135a22fadb60ea9a50525dc407be880d28ce2166f9472cfce1457d2ba6
+generated: "2024-03-22T22:01:56.52849807Z"
