@@ -1,0 +1,17 @@
+{{-
+$values := . | merge (dict
+  "Values" (dict
+    "autoscaling" dict
+    "image" (dict
+      "regisry" ""
+    )
+    "ingress" (dict)
+    "service" (dict
+      "port" ""
+    )
+    "serviceAccount" dict
+  )
+)
+-}}
+
+{{ include "viapathlib.microservice" $values }}
