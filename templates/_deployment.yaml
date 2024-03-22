@@ -1,4 +1,16 @@
 {{- define "viapathlib.deployment" -}}
+{{- $locals := dict }}
+{{- with .Values.service }}
+  {{- with .livenessProbe }}
+    {{- $locals = set $locals "livenessProbe" (. | fromYaml) -}}
+  {{- end }}
+  {{- with .readinessProbe }}
+    {{- $locals = set $locals "readinessProbe" (. | fromYaml) -}}
+  {{- end }}
+  {{- with .startupProbe }}
+    {{- $locals = set $locals "startupProbe" (. | fromYaml) -}}
+  {{- end }}
+{{- end }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -23,47 +35,51 @@ spec:
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
+        {{- . | toYaml | trim | nindent 8 }}
       {{- end }}
       serviceAccountName: {{ include "chart.serviceAccountName" . }}
+      {{- with .Values.podSecurityContext }}
       securityContext:
-        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+        {{- . | toYaml | trim | nindent 8 }}
+      {{- end }}
       containers:
-        - name: {{ .Chart.Name }}
-          securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
-          image: {{
-            (list
-              (list
-                .Values.image.registry
-                .Values.image.repository
-                | compact | join "/"
-              )
-              (.Values.image.tag | default .Chart.AppVersion)
-              | compact | join ":"
-            ) }}
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-          envFrom:
-          - configMapRef:
-              name: {{ list (include "chart.fullname" .) "envs" | join "-" }}
-          - secretRef:
-              name: {{ list (include "chart.fullname" .) "envs" | join "-" }}
-          ports:
-            - name: http
-              containerPort: {{ .Values.service.port }}
-              protocol: TCP
-          {{ with .Values.livenessProbe }}
-          livenessProbe:
+      - name: {{ .Chart.Name }}
+        {{- with .Values.securityContext }}
+        securityContext:
           {{- . | toYaml | trim | nindent 10 }}
-          {{- end }}
-          {{ with .Values.readinessProbe }}
-          readinessProbe:
-            {{- . | toYaml | trim | nindent 10 }}
-          {{- end }}
-          {{ with .Values.resources }}
-          resources:
-            {{- . | toYaml | trim | nindent 12 }}
-          {{- end }}
+        {{- end }}
+        image: {{
+          (list
+            (list
+              .Values.image.registry
+              .Values.image.repository
+              | compact | join "/"
+            )
+            (.Values.image.tag | default .Chart.AppVersion)
+            | compact | join ":"
+          ) }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        envFrom:
+        - configMapRef:
+            name: {{ list (include "chart.fullname" .) "envs" | join "-" }}
+        - secretRef:
+            name: {{ list (include "chart.fullname" .) "envs" | join "-" }}
+        ports:
+        - name: http
+          containerPort: {{ .Values.service.port }}
+          protocol: TCP
+        {{- with $locals.livenessProbe }}
+        livenessProbe:
+        {{- . | toYaml | trim | nindent 10 }}
+        {{- end }}
+        {{- with $locals.readinessProbe }}
+        readinessProbe:
+          {{- . | toYaml | trim | nindent 10 }}
+        {{- end }}
+        {{- with .Values.resources }}
+        resources:
+          {{- . | toYaml | trim | nindent 10 }}
+        {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

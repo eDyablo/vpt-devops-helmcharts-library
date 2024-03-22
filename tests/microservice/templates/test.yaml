@@ -8,6 +8,12 @@ $values := . | merge (dict
     "ingress" (dict)
     "service" (dict
       "port" ""
+      "readinessProbe" (dict
+        "tcpSocket" (dict
+          "port" "http"
+        )
+        | toYaml
+      )
     )
     "serviceAccount" dict
   )
