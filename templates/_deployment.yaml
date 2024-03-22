@@ -2,13 +2,13 @@
 {{- $locals := dict }}
 {{- with .Values.service }}
   {{- with .livenessProbe }}
-    {{- $locals = set $locals "livenessProbe" (. | fromYaml) -}}
+    {{- $locals = set $locals "livenessProbe" . -}}
   {{- end }}
   {{- with .readinessProbe }}
-    {{- $locals = set $locals "readinessProbe" (. | fromYaml) -}}
+    {{- $locals = set $locals "readinessProbe" . -}}
   {{- end }}
   {{- with .startupProbe }}
-    {{- $locals = set $locals "startupProbe" (. | fromYaml) -}}
+    {{- $locals = set $locals "startupProbe" . -}}
   {{- end }}
 {{- end }}
 apiVersion: apps/v1

@@ -12,7 +12,6 @@ $values := . | merge (dict
         "tcpSocket" (dict
           "port" "http"
         )
-        | toYaml
       )
     )
     "serviceAccount" dict
