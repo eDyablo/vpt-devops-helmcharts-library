@@ -7,6 +7,8 @@
 ---
 {{ include "viapathlib.ingress" . }}
 ---
+{{ include "viapathlib.podDisruptionBudget" . }}
+---
 {{ include "viapathlib.secrets" . }}
 ---
 {{ include "viapathlib.service" . }}

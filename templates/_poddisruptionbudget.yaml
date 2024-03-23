@@ -1,0 +1,17 @@
+{{- define "viapathlib.podDisruptionBudget" -}}
+{{- with .Values.podDisruptionBudget }}
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ include "chart.fullname" $ }}
+  labels:
+    {{- include "chart.labels" $ | nindent 4 }}
+spec:
+  maxUnavailable: {{ .maxUnavailable }}
+  minAvailable: {{ .minAvailable }}
+  selector:
+    matchLabels:
+      matchLabels:
+      {{- include "chart.selectorLabels" $ | nindent 6 }}
+{{- end }}
+{{- end }}
