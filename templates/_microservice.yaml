@@ -1,5 +1,5 @@
 {{- define "viapathlib.microservice" -}}
-{{ include "viapathlib.configmaps" . }}
+{{ include "viapathlib.configMaps" . }}
 ---
 {{ include "viapathlib.deployment" . }}
 ---
@@ -13,5 +13,5 @@
 ---
 {{ include "viapathlib.service" . }}
 ---
-{{ include "viapathlib.serviceaccount" . }}
+{{ include "viapathlib.serviceAccount" . }}
 {{- end }}

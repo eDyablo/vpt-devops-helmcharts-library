@@ -1,4 +1,4 @@
-{{- define "viapathlib.configmaps" -}}
+{{- define "viapathlib.configMaps" -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
