@@ -3,6 +3,8 @@
 ---
 {{ include "viapathlib.deployment" . }}
 ---
+{{ include "viapathlib.hpa" . }}
+---
 {{ include "viapathlib.ingress" . }}
 ---
 {{ include "viapathlib.secrets" . }}

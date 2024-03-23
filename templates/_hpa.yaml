@@ -1,5 +1,5 @@
 {{- define "viapathlib.hpa" -}}
-{{- if .Values.autoscaling.enabled }}
+{{- if .Values.autoscaling }}
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
