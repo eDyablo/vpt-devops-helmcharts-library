@@ -21,3 +21,7 @@
 .idea/
 *.tmproj
 .vscode/
+
+.giltab-ci.yml
+docker-compose.yaml
+tests/
