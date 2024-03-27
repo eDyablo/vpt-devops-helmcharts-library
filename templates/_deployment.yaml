@@ -59,6 +59,7 @@ spec:
             | compact | join ":"
           ) }}
         imagePullPolicy: {{ .Values.image.pullPolicy }}
+        env:
         envFrom:
         - configMapRef:
             name: {{ list (include "chart.fullname" .) "envs" | join "-" }}
