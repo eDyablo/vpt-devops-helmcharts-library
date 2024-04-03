@@ -1,14 +1,3 @@
 include:
 - project: devops/tools/ci
-  file: helm-jobs.yaml
-
-lint chart:
-  extends: .lint chart job
-  rules:
-  - if: $CI_PIPELINE_SOURCE != 'pipeline'
-
-package chart:
-  extends: .package chart job
-
-publish chart:
-  extends: .push chart to artifactory job
+  file: helm/jobs.gitlab-ci.yml
